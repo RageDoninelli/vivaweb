@@ -86,6 +86,23 @@
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
   .langs{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
   .langs .card{flex:1 1 200px;max-width:268px}
+  .lang > *:not(.bg):not(.foto):not(.shade){position:relative;z-index:1}
+  .lang .bg{position:absolute;right:-4px;bottom:0;width:84%;height:78%;color:var(--c);opacity:.17;pointer-events:none;z-index:0;transition:opacity .35s,transform .35s}
+  .lang .bg svg{width:100%;height:100%;display:block}
+  .lang:hover .bg{opacity:.3;transform:translateY(-6px) scale(1.03)}
+  /* Tarjetas con foto de fondo */
+  .lang.has-foto{background:#2a3641;border-color:transparent;display:flex;flex-direction:column;min-height:390px}
+  .lang.has-foto::before{z-index:2;height:7px}
+  .lang .foto{position:absolute;inset:0;z-index:0;background-size:cover;background-repeat:no-repeat;transition:transform .9s ease}
+  .lang .shade{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(16,20,36,.38) 0%,rgba(16,20,36,.62) 50%,rgba(16,20,36,.9) 100%);transition:opacity .4s}
+  .lang.has-foto:hover .foto{transform:scale(1.07)}
+  .lang.has-foto:hover .shade{opacity:.78}
+  .lang.has-foto h3{color:#fff}
+  .lang.has-foto p{color:rgba(255,255,255,.93)}
+  .lang.has-foto .nivel{align-self:flex-start;background:rgba(255,255,255,.22);color:#fff;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .lang.has-foto .link{color:#fff;margin-top:auto;align-self:flex-start;padding-bottom:3px;border-bottom:2px solid var(--c)}
+  @media(prefers-reduced-motion:reduce){.lang .foto{transition:none}.lang.has-foto:hover .foto{transform:none}}
+  @media(prefers-reduced-motion:reduce){.lang .bg{transition:none}.lang:hover .bg{transform:none}}
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radio);padding:26px;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
   .card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(42,54,65,.1)}
   .lang::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--c)}
@@ -196,10 +213,10 @@ const NEGOCIO = {
   idiomasTitulo: "Elige tu idioma",
   idiomasTexto: "Cuatro idiomas, niveles claros y un plan para empezar desde cero.",
   idiomas: [
-    { sigla: "EN", nombre: "Inglés",  niveles: "Desde A1", color: "#FF6C53", textoColor: "#2A3641", texto: "Gramática, vocabulario y conversación para estudiar, trabajar y viajar." },
-    { sigla: "IT", nombre: "Italiano", niveles: "Desde A1", color: "#4BA5B8", textoColor: "#2A3641", texto: "Aprende desde cero con ejercicios guiados y práctica constante." },
-    { sigla: "DE", nombre: "Alemán",  niveles: "Desde A1", color: "#FDAB18", textoColor: "#2A3641", texto: "Estructura clara paso a paso, ideal para empezar con buena base." },
-    { sigla: "CA", nombre: "Catalán", niveles: "Desde A1", color: "#5D4F9C", textoColor: "#FFFFFF", texto: "Una lengua cercana al español y al italiano, con mucho por descubrir." },
+    { sigla: "EN", fondo: "bigben", foto: "fondo-ingles.jpg", fotoPos: "74% 40%", nombre: "Inglés",  niveles: "Desde A1", color: "#FF6C53", textoColor: "#2A3641", texto: "Gramática, vocabulario y conversación para estudiar, trabajar y viajar." },
+    { sigla: "IT", fondo: "coliseo", foto: "fondo-italiano.jpg", fotoPos: "28% 55%", nombre: "Italiano", niveles: "Desde A1", color: "#4BA5B8", textoColor: "#2A3641", texto: "Aprende desde cero con ejercicios guiados y práctica constante." },
+    { sigla: "DE", fondo: "brandeburgo", foto: "fondo-aleman.jpg", fotoPos: "50% 45%", nombre: "Alemán",  niveles: "Desde A1", color: "#FDAB18", textoColor: "#2A3641", texto: "Estructura clara paso a paso, ideal para empezar con buena base." },
+    { sigla: "CA", fondo: "sagrada", foto: "fondo-catalan.jpg", fotoPos: "50% 30%", nombre: "Catalán", niveles: "Desde A1", color: "#5D4F9C", textoColor: "#FFFFFF", texto: "Una lengua cercana al español y al italiano, con mucho por descubrir." },
   ],
 
   porqueTitulo: "Una academia hecha para aprender de verdad",
@@ -404,6 +421,16 @@ const NEGOCIO = {
 (function(){
   const N = NEGOCIO, $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  // Fondos ilustrados (siluetas). Se eligen con la clave fondo de cada idioma en NEGOCIO. Si falta, la tarjeta queda sin fondo.
+  const FONDOS = {
+    bigben: `<svg viewBox="0 0 200 200" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false"><g fill="currentColor"><polygon points="100,2 111,38 89,38"/><rect x="84" y="38" width="32" height="22"/><polygon points="64,62 70,44 76,62"/><polygon points="124,62 130,44 136,62"/><rect x="68" y="60" width="64" height="48"/><rect x="76" y="108" width="48" height="80"/><rect x="66" y="186" width="68" height="14"/></g><g fill="#fff"><circle cx="100" cy="84" r="16"/><rect x="90" y="42" width="4" height="14"/><rect x="106" y="42" width="4" height="14"/><rect x="95" y="122" width="10" height="16"/><rect x="95" y="148" width="10" height="16"/></g><g stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="100" y1="84" x2="100" y2="73"/><line x1="100" y1="84" x2="108" y2="88"/></g></svg>`,
+    coliseo: `<svg viewBox="0 0 200 200" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false"><g fill="currentColor"><path d="M6,200V90Q6,74 22,72H148L172,92L194,96V200Z"/></g><g fill="#fff"><rect x="22" y="80" width="8" height="10"/><rect x="44" y="80" width="8" height="10"/><rect x="66" y="80" width="8" height="10"/><rect x="88" y="80" width="8" height="10"/><rect x="110" y="80" width="8" height="10"/><rect x="132" y="80" width="8" height="10"/><path d="M20,126V111a7,7 0 0 1 14,0V126Z"/><path d="M46,126V111a7,7 0 0 1 14,0V126Z"/><path d="M72,126V111a7,7 0 0 1 14,0V126Z"/><path d="M98,126V111a7,7 0 0 1 14,0V126Z"/><path d="M124,126V111a7,7 0 0 1 14,0V126Z"/><path d="M150,126V111a7,7 0 0 1 14,0V126Z"/><path d="M20,158V143a7,7 0 0 1 14,0V158Z"/><path d="M46,158V143a7,7 0 0 1 14,0V158Z"/><path d="M72,158V143a7,7 0 0 1 14,0V158Z"/><path d="M98,158V143a7,7 0 0 1 14,0V158Z"/><path d="M124,158V143a7,7 0 0 1 14,0V158Z"/><path d="M150,158V143a7,7 0 0 1 14,0V158Z"/><path d="M20,194V175a7,7 0 0 1 14,0V194Z"/><path d="M46,194V175a7,7 0 0 1 14,0V194Z"/><path d="M72,194V175a7,7 0 0 1 14,0V194Z"/><path d="M98,194V175a7,7 0 0 1 14,0V194Z"/><path d="M124,194V175a7,7 0 0 1 14,0V194Z"/><path d="M150,194V175a7,7 0 0 1 14,0V194Z"/></g></svg>`,
+    brandeburgo: `<svg viewBox="0 0 200 200" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false"><g fill="currentColor"><rect x="21" y="100" width="14" height="86"/><rect x="50" y="100" width="14" height="86"/><rect x="79" y="100" width="14" height="86"/><rect x="107" y="100" width="14" height="86"/><rect x="136" y="100" width="14" height="86"/><rect x="165" y="100" width="14" height="86"/><rect x="12" y="82" width="176" height="18"/><rect x="34" y="64" width="132" height="18"/><rect x="8" y="186" width="184" height="14"/><rect x="78" y="56" width="44" height="8"/><rect x="84" y="44" width="32" height="12"/><rect x="84" y="30" width="6" height="14" rx="2"/><rect x="92.5" y="30" width="6" height="14" rx="2"/><rect x="101" y="30" width="6" height="14" rx="2"/><rect x="109.5" y="30" width="6" height="14" rx="2"/><polygon points="93,30 100,8 107,30"/><polygon points="84,22 100,12 116,22 100,18"/></g></svg>`,
+    sagrada: `<svg viewBox="0 0 200 200" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false"><g fill="currentColor"><rect x="22" y="118" width="156" height="82"/><path d="M30,150L33,80Q33,58 38,50Q43,58 43,80L46,150Z"/><circle cx="38" cy="48" r="3"/><path d="M60,150L63,64Q63,42 68,34Q73,42 73,64L76,150Z"/><circle cx="68" cy="32" r="3"/><path d="M124,150L127,64Q127,42 132,34Q137,42 137,64L140,150Z"/><circle cx="132" cy="32" r="3"/><path d="M154,150L157,80Q157,58 162,50Q167,58 167,80L170,150Z"/><circle cx="162" cy="48" r="3"/><path d="M92,150L95,50Q95,28 100,20Q105,28 105,50L108,150Z"/><circle cx="100" cy="18" r="3"/><rect x="98.6" y="2" width="2.8" height="14"/><rect x="95" y="6" width="10" height="2.6"/></g><g fill="#fff"><path d="M86,200V172Q100,148 114,172V200Z"/><rect x="36.4" y="96" width="3.2" height="12" rx="1.6"/><rect x="66.4" y="80" width="3.2" height="12" rx="1.6"/><rect x="130.4" y="80" width="3.2" height="12" rx="1.6"/><rect x="160.4" y="96" width="3.2" height="12" rx="1.6"/><rect x="98.4" y="66" width="3.2" height="12" rx="1.6"/><rect x="34" y="128" width="7" height="16" rx="3.5"/><rect x="52" y="128" width="7" height="16" rx="3.5"/><rect x="70" y="128" width="7" height="16" rx="3.5"/><rect x="123" y="128" width="7" height="16" rx="3.5"/><rect x="141" y="128" width="7" height="16" rx="3.5"/><rect x="159" y="128" width="7" height="16" rx="3.5"/></g></svg>`
+  };
+  const fondoHTML = i => i.foto
+    ? `<div class="foto" aria-hidden="true" style="background-image:url('${esc(i.foto)}');background-position:${esc(i.fotoPos || "center")}"></div><div class="shade" aria-hidden="true"></div>`
+    : (FONDOS[i.fondo] ? `<div class="bg" aria-hidden="true">${FONDOS[i.fondo]}</div>` : "");
   const waLink = msg => "https://wa.me/" + N.whatsapp + "?text=" + encodeURIComponent(msg);
   const WAICON = '<svg viewBox="0 0 32 32"><path d="M16 3C9 3 3.3 8.6 3.3 15.5c0 2.4.7 4.7 1.9 6.6L3 29l7.1-2.1c1.8 1 3.8 1.5 5.9 1.5 7 0 12.7-5.600 12.700-12.500S23 3 16 3zm5.700 15.300c-.3-.2-1.800-.9-2.100-1-.3-.1-.5-.2-.7.200-.2.300-.8 1-1 1.200-.2.200-.4.200-.7.100-.3-.2-1.300-.5-2.500-1.500-.9-.8-1.500-1.800-1.700-2.100-.2-.3 0-.5.100-.7l.5-.5c.2-.2.200-.3.300-.5.100-.2.100-.4 0-.5-.1-.2-.7-1.600-.9-2.200-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.100-.8.400-.3.300-1.100 1.100-1.100 2.600s1.100 3 1.300 3.200c.2.200 2.200 3.300 5.300 4.600.7.300 1.300.5 1.700.6.700.2 1.400.2 1.900.1.600-.1 1.800-.7 2-1.400.3-.7.300-1.300.2-1.400-.1-.1-.3-.2-.6-.4z"/></svg>';
 
@@ -438,7 +465,8 @@ const NEGOCIO = {
   $("idiomasTexto").textContent = N.idiomasTexto;
   $("gridIdiomas").innerHTML = N.idiomas.map(i => {
     const msg = "Hola, quiero información del curso de " + i.nombre + ".";
-    return `<article class="card lang rv" style="--c:${esc(i.color)};--t:${esc(i.textoColor||'#fff')}">
+    return `<article class="card lang rv${i.foto ? ' has-foto' : ''}" style="--c:${esc(i.color)};--t:${esc(i.textoColor||'#fff')}">
+      ${fondoHTML(i)}
       <div class="badge">${esc(i.sigla)}</div>
       <h3>${esc(i.nombre)}</h3>
       <span class="nivel">${esc(i.niveles)}</span>
