@@ -101,6 +101,16 @@
   .lang.has-foto p{color:rgba(255,255,255,.93)}
   .lang.has-foto .nivel{align-self:flex-start;background:rgba(255,255,255,.22);color:#fff;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
   .lang.has-foto .link{color:#fff;margin-top:auto;align-self:flex-start;padding-bottom:3px;border-bottom:2px solid var(--c)}
+  /* Tarjeta ancha (curso de especialización) */
+  .langs .card.wide{flex:1 1 100%;max-width:none;min-height:320px;justify-content:center}
+  .lang.wide > *:not(.foto):not(.shade){max-width:560px}
+  .lang.wide .link{margin-top:6px}
+  .lang.wide .badge{width:auto;min-width:54px;padding:0 14px;align-self:flex-start}
+  @media(max-width:560px){.langs .card.wide{max-width:268px}}
+  @media(min-width:861px){
+    .lang.wide .shade{background:linear-gradient(90deg,rgba(16,20,36,.92) 0%,rgba(16,20,36,.78) 42%,rgba(16,20,36,.12) 100%)}
+    .lang.wide{padding:34px 40px}
+  }
   @media(prefers-reduced-motion:reduce){.lang .foto{transition:none}.lang.has-foto:hover .foto{transform:none}}
   @media(prefers-reduced-motion:reduce){.lang .bg{transition:none}.lang:hover .bg{transform:none}}
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radio);padding:26px;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
@@ -197,7 +207,7 @@ const NEGOCIO = {
 
   titularInicio: "Aprende idiomas <em>en línea</em>, con ganas y a tu ritmo",
   descripcionCorta: "Clases de inglés, italiano, alemán y catalán, desde nivel A1, con material interactivo para practicar desde tu celular.",
-  metaDescripcion: "V.I.V.A. Academy: academia de idiomas en línea. Inglés, italiano, alemán y catalán, desde nivel A1. Escríbenos por WhatsApp.",
+  metaDescripcion: "V.I.V.A. Academy: academia de idiomas en línea. Inglés, italiano, alemán y catalán, desde nivel A1, y curso de especialización para médicos. Escríbenos por WhatsApp.",
   chips: [
     { texto: "100% en línea", color: "#FF6C53" },
     { texto: "Desde nivel A1", color: "#4BA5B8" },
@@ -211,12 +221,13 @@ const NEGOCIO = {
   mensajeWhatsapp: "Hola, vi la página de V.I.V.A. Academy y quiero información sobre los cursos.",
 
   idiomasTitulo: "Elige tu idioma",
-  idiomasTexto: "Cuatro idiomas, niveles claros y un plan para empezar desde cero.",
+  idiomasTexto: "Cuatro idiomas desde cero y un curso de especialización para médicos.",
   idiomas: [
     { sigla: "EN", fondo: "bigben", foto: "fondo-ingles.jpg", fotoPos: "74% 40%", nombre: "Inglés",  niveles: "Desde A1", color: "#FF6C53", textoColor: "#2A3641", texto: "Gramática, vocabulario y conversación para estudiar, trabajar y viajar." },
     { sigla: "IT", fondo: "coliseo", foto: "fondo-italiano.jpg", fotoPos: "28% 55%", nombre: "Italiano", niveles: "Desde A1", color: "#4BA5B8", textoColor: "#2A3641", texto: "Aprende desde cero con ejercicios guiados y práctica constante." },
     { sigla: "DE", fondo: "brandeburgo", foto: "fondo-aleman.jpg", fotoPos: "50% 45%", nombre: "Alemán",  niveles: "Desde A1", color: "#FDAB18", textoColor: "#2A3641", texto: "Estructura clara paso a paso, ideal para empezar con buena base." },
     { sigla: "CA", fondo: "sagrada", foto: "fondo-catalan.jpg", fotoPos: "50% 30%", nombre: "Catalán", niveles: "Desde A1", color: "#5D4F9C", textoColor: "#FFFFFF", texto: "Una lengua cercana al español y al italiano, con mucho por descubrir." },
+    { sigla: "MED", ancho: true, foto: "fondo-medicina.jpg", fotoPos: "50% 28%", nombre: "Especialización para médicos", niveles: "Médicos y estudiantes de medicina", color: "#4BA5B8", textoColor: "#2A3641", texto: "Curso de especialización pensado para médicos y estudiantes de medicina, con enfoque en el ámbito profesional y clínico.", mensaje: "Hola, quiero información del curso de especialización para médicos y estudiantes de medicina." }
   ],
 
   porqueTitulo: "Una academia hecha para aprender de verdad",
@@ -464,8 +475,8 @@ const NEGOCIO = {
   $("idiomasTitulo").textContent = N.idiomasTitulo;
   $("idiomasTexto").textContent = N.idiomasTexto;
   $("gridIdiomas").innerHTML = N.idiomas.map(i => {
-    const msg = "Hola, quiero información del curso de " + i.nombre + ".";
-    return `<article class="card lang rv${i.foto ? ' has-foto' : ''}" style="--c:${esc(i.color)};--t:${esc(i.textoColor||'#fff')}">
+    const msg = i.mensaje || ("Hola, quiero información del curso de " + i.nombre + ".");
+    return `<article class="card lang rv${i.foto ? ' has-foto' : ''}${i.ancho ? ' wide' : ''}" style="--c:${esc(i.color)};--t:${esc(i.textoColor||'#fff')}">
       ${fondoHTML(i)}
       <div class="badge">${esc(i.sigla)}</div>
       <h3>${esc(i.nombre)}</h3>
