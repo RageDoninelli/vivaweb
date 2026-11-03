@@ -144,6 +144,45 @@
   .kids li small{display:block;font-weight:400;opacity:.85}
   @media(max-width:860px){.kids{grid-template-columns:1fr;padding:36px 24px}}
 
+  /* Prueba de nivel */
+  .prueba{background:var(--tint)}
+  .quiz{max-width:720px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:0 24px 50px rgba(93,79,156,.1)}
+  @media(max-width:560px){.quiz{padding:24px 18px;border-radius:22px}}
+  .qform{display:grid;gap:20px;background:none;border:0;border-radius:0;padding:0}
+  .qerror{color:#b3261e;font-weight:700;font-size:.92rem}
+  .chips-idioma{display:flex;flex-wrap:wrap;gap:10px}
+  .chips-idioma label{position:relative;margin:0;cursor:pointer;font-size:1rem;color:inherit}
+  .chips-idioma input{position:absolute;opacity:0;width:1px;height:1px;padding:0;border:0}
+  .chips-idioma span{display:inline-flex;align-items:center;gap:9px;padding:11px 20px;border-radius:999px;border:2px solid var(--line);font-weight:700;color:var(--slate);background:#fff;transition:.15s}
+  .chips-idioma span i{width:11px;height:11px;border-radius:50%;background:var(--c)}
+  .chips-idioma label:hover span{border-color:var(--purple)}
+  .chips-idioma input:checked + span{border-color:var(--purple);background:var(--tint);color:var(--purple)}
+  .chips-idioma input:focus-visible + span{outline:3px solid rgba(93,79,156,.35)}
+  .qhead{font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:10px}
+  .qbar{height:10px;border-radius:99px;background:var(--tint);overflow:hidden;margin-bottom:26px}
+  .qbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--coral),var(--amber),var(--teal),var(--purple));transition:width .35s}
+  .qtexto{font-size:clamp(1.15rem,3.4vw,1.4rem);font-weight:700;line-height:1.35;margin-bottom:20px;color:var(--ink)}
+  .qops{display:grid;gap:10px}
+  .qop{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;font-weight:600;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;transition:.15s}
+  .qop b{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--tint);color:var(--purple);font-size:.85rem}
+  .qop:hover{border-color:var(--purple)}
+  .qop:focus-visible{outline:3px solid rgba(93,79,156,.35)}
+  .qop[aria-pressed="true"]{border-color:var(--purple);background:var(--tint)}
+  .qop[aria-pressed="true"] b{background:var(--purple);color:#fff}
+  .qnav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+  .btn[disabled],.btn[disabled]:hover{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none;background:var(--purple);border-color:var(--purple)}
+  .btn.sec[disabled],.btn.sec[disabled]:hover{background:transparent;color:var(--purple)}
+  .res{text-align:center}
+  .res h3{font-size:1.7rem;margin-bottom:8px}
+  .res-badge{width:124px;height:124px;border-radius:50%;margin:10px auto 16px;display:grid;place-items:center;font-size:2.4rem;font-weight:800;background:var(--c,var(--purple));box-shadow:0 14px 30px rgba(42,54,65,.18)}
+  .res-badge.larga{font-size:1.7rem}
+  .res .desc{color:var(--muted);max-width:480px;margin:0 auto 10px}
+  .desglose{display:grid;gap:10px;max-width:420px;margin:18px auto 26px;text-align:left}
+  .desglose > div{display:grid;grid-template-columns:34px 1fr 40px;gap:12px;align-items:center;font-size:.9rem;font-weight:700;color:var(--slate)}
+  .desglose .b{height:10px;border-radius:99px;background:var(--tint);overflow:hidden}
+  .desglose .b i{display:block;height:100%;border-radius:99px;background:var(--c,var(--purple))}
+  .res-acc{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
   /* Pasos */
   .pasos{counter-reset:p}
   .paso{text-align:center;padding:10px}
@@ -209,7 +248,7 @@ const NEGOCIO = {
 
   titularInicio: "Aprende idiomas <em>en línea</em>, con ganas y a tu ritmo",
   descripcionCorta: "Clases de inglés, italiano, alemán y catalán, desde nivel A1, con material interactivo para practicar desde tu celular.",
-  metaDescripcion: "V.I.V.A. Academy: academia de idiomas en línea. Inglés, italiano, alemán y catalán, desde nivel A1, y cursos de especialización para médicos y turismo. Escríbenos por WhatsApp.",
+  metaDescripcion: "V.I.V.A. Academy: academia de idiomas en línea. Inglés, italiano, alemán y catalán, desde nivel A1, y cursos de especialización para médicos y turismo. Prueba de nivel en línea. Escríbenos por WhatsApp.",
   chips: [
     { texto: "100% en línea", color: "#FF6C53" },
     { texto: "Desde nivel A1", color: "#4BA5B8" },
@@ -262,6 +301,85 @@ const NEGOCIO = {
     { titulo: "Empieza a aprender", texto: "Recibe tu plan, tu material y comienza tus clases.", color: "#FDAB18" }
   ],
 
+  // Prueba de nivel: preguntas por idioma. En cada pregunta, la PRIMERA opción es la correcta (la página las mezcla al mostrarlas).
+  prueba: {
+    activa: true,
+    titulo: "Descubre tu nivel",
+    texto: "Responde unas preguntas en pocos minutos y te decimos en qué nivel estás. Al final puedes enviar tu resultado a V.I.V.A. Academy por WhatsApp.",
+    nota: "Son 15 preguntas por idioma y toma unos 5 minutos. Al terminar podrás enviar tu resultado por WhatsApp.",
+    umbral: 0.6,   // proporción de aciertos para aprobar cada nivel
+    idiomas: [
+      { id: "ingles", nombre: "Inglés", color: "#FF6C53", tc: "#2A3641", preguntas: [
+        { n: "A1", q: "She ___ a teacher.", o: ["is", "are", "am", "be"] },
+        { n: "A1", q: "There ___ two books on the table.", o: ["are", "is", "was", "be"] },
+        { n: "A1", q: "___ you from Mexico?", o: ["Are", "Do", "Is", "Does"] },
+        { n: "A1", q: "My brother ___ twelve years old.", o: ["is", "has", "have", "are"] },
+        { n: "A1", q: "I ___ coffee every morning.", o: ["drink", "drinks", "drinking", "am drink"] },
+        { n: "A2", q: "I ___ to the market every Saturday.", o: ["go", "goes", "going", "went"] },
+        { n: "A2", q: "Yesterday, they ___ a movie together.", o: ["watched", "watch", "watches", "watching"] },
+        { n: "A2", q: "My sister is taller ___ me.", o: ["than", "that", "then", "as"] },
+        { n: "A2", q: "I'm ___ to visit my grandmother tomorrow.", o: ["going", "go", "goes", "went"] },
+        { n: "A2", q: "There isn't ___ milk in the fridge.", o: ["any", "some", "a", "many"] },
+        { n: "B1", q: "I have lived here ___ 2019.", o: ["since", "for", "from", "in"] },
+        { n: "B1", q: "If it rains tomorrow, we ___ the trip.", o: ["will cancel", "cancel", "would cancel", "canceled"] },
+        { n: "B1", q: "She asked me where I ___.", o: ["lived", "live", "am living", "did live"] },
+        { n: "B1", q: "This is the house ___ I was born.", o: ["where", "which", "who", "what"] },
+        { n: "B1", q: "I ___ never ___ to Japan, but I would love to go.", o: ["have / been", "has / been", "did / be", "am / been"] },
+      ] },
+      { id: "italiano", nombre: "Italiano", color: "#4BA5B8", tc: "#2A3641", preguntas: [
+        { n: "A1", q: "Io ___ Marco.", o: ["sono", "sei", "è", "siamo"] },
+        { n: "A1", q: "Lei ___ in Italia.", o: ["abita", "abito", "abiti", "abitano"] },
+        { n: "A1", q: "Noi ___ la pizza.", o: ["mangiamo", "mangio", "mangiate", "mangiano"] },
+        { n: "A1", q: "___ ti chiami?", o: ["Come", "Dove", "Quando", "Quanto"] },
+        { n: "A1", q: "Ho ___ gatto.", o: ["un", "uno", "una", "dei"] },
+        { n: "A2", q: "Ieri ___ al cinema.", o: ["sono andato", "ho andato", "ero andato", "andrò"] },
+        { n: "A2", q: "Mi ___ molto la musica.", o: ["piace", "piaccio", "piacciono", "piacere"] },
+        { n: "A2", q: "Voglio ___ un caffè.", o: ["bere", "bevo", "bevuto", "bevi"] },
+        { n: "A2", q: "Questa è la casa ___ mia sorella.", o: ["di", "da", "in", "su"] },
+        { n: "A2", q: "Quando ero piccolo, ___ sempre al parco.", o: ["andavo", "sono andato", "vado", "andrò"] },
+        { n: "B1", q: "Se avessi tempo, ___ in viaggio.", o: ["andrei", "vado", "andrò", "andavo"] },
+        { n: "B1", q: "Credo che lui ___ ragione.", o: ["abbia", "ha", "avrà", "aveva"] },
+        { n: "B1", q: "Ho comprato dei libri e li ___ già letti.", o: ["ho", "sono", "ha", "hanno"] },
+        { n: "B1", q: "Il libro ___ ti ho parlato è questo.", o: ["di cui", "che", "quale", "chi"] },
+        { n: "B1", q: "Quando sono arrivato, il film ___ già finito.", o: ["era", "è", "sarà", "fu"] },
+      ] },
+      { id: "aleman", nombre: "Alemán", color: "#FDAB18", tc: "#2A3641", preguntas: [
+        { n: "A1", q: "Ich ___ Anna.", o: ["bin", "bist", "ist", "sind"] },
+        { n: "A1", q: "Er ___ in Berlin.", o: ["wohnt", "wohne", "wohnst", "wohnen"] },
+        { n: "A1", q: "Wir ___ Kaffee.", o: ["trinken", "trinkt", "trinke", "trinkst"] },
+        { n: "A1", q: "___ heißt du?", o: ["Wie", "Wo", "Wann", "Wer"] },
+        { n: "A1", q: "Das ist ___ Buch.", o: ["ein", "eine", "einen", "einem"] },
+        { n: "A2", q: "Ich ___ gestern im Kino.", o: ["war", "bin", "habe", "werde"] },
+        { n: "A2", q: "Ich fahre mit ___ Bus.", o: ["dem", "den", "der", "das"] },
+        { n: "A2", q: "Hast du ___ Bruder?", o: ["einen", "ein", "eine", "einem"] },
+        { n: "A2", q: "Ich möchte ein Glas Wasser ___.", o: ["trinken", "trinke", "getrunken", "trinkt"] },
+        { n: "A2", q: "Das Wetter ist schön, ___ gehen wir spazieren.", o: ["deshalb", "weil", "obwohl", "dass"] },
+        { n: "B1", q: "Ich weiß nicht, ___ er heute kommt.", o: ["ob", "dass", "damit", "obwohl"] },
+        { n: "B1", q: "Wenn ich mehr Zeit ___, würde ich reisen.", o: ["hätte", "habe", "hatte", "haben"] },
+        { n: "B1", q: "Das Auto, ___ ich gekauft habe, ist rot.", o: ["das", "der", "dem", "die"] },
+        { n: "B1", q: "Ich interessiere mich ___ Musik.", o: ["für", "an", "auf", "über"] },
+        { n: "B1", q: "Das Buch ist von vielen Menschen gelesen ___.", o: ["worden", "geworden", "wurden", "werden"] },
+      ] },
+      { id: "catalan", nombre: "Catalán", color: "#5D4F9C", tc: "#FFFFFF", preguntas: [
+        { n: "A1", q: "Jo ___ Maria.", o: ["sóc", "ets", "és", "som"] },
+        { n: "A1", q: "Ell ___ a Barcelona.", o: ["viu", "visc", "vius", "viuen"] },
+        { n: "A1", q: "Nosaltres ___ pa.", o: ["mengem", "menjo", "mengeu", "mengen"] },
+        { n: "A1", q: "Com et ___?", o: ["dius", "dic", "diu", "diuen"] },
+        { n: "A1", q: "Tinc ___ gat.", o: ["un", "una", "uns", "unes"] },
+        { n: "A2", q: "Ahir ___ al cinema.", o: ["vaig anar", "vaig anat", "vaig anant", "aniré"] },
+        { n: "A2", q: "M'agrada ___ música.", o: ["la", "el", "les", "un"] },
+        { n: "A2", q: "Vull ___ un cafè.", o: ["prendre", "prenc", "pres", "prens"] },
+        { n: "A2", q: "Els llibres són ___ la taula, no al terra.", o: ["sobre", "sota", "darrere", "dins"] },
+        { n: "A2", q: "Quan era petit, ___ cada estiu al poble.", o: ["anava", "vaig anar", "aniré", "vaig anat"] },
+        { n: "B1", q: "Si tingués temps, ___ de viatge.", o: ["aniria", "vaig", "aniré", "anava"] },
+        { n: "B1", q: "No crec que ___ raó.", o: ["tingui", "té", "tindrà", "tenia"] },
+        { n: "B1", q: "El llibre ___ et vaig parlar és aquest.", o: ["de què", "que", "qui", "on"] },
+        { n: "B1", q: "Quan vaig arribar, la pel·lícula ja ___.", o: ["havia acabat", "ha acabat", "acabarà", "acabi"] },
+        { n: "B1", q: "Aquesta és la ciutat ___ vaig néixer.", o: ["on", "que", "qui", "quan"] },
+      ] },
+    ]
+  },
+
   // Si la lista está vacía, la sección de testimonios no aparece. Usa solo opiniones reales.
   testimonios: [],
 
@@ -269,6 +387,7 @@ const NEGOCIO = {
   faq: [
     { p: "¿Las clases son presenciales?", r: "No, todas las clases son en línea, así que puedes aprender desde cualquier lugar." },
     { p: "¿Necesito saber algo del idioma para empezar?", r: "No. Hay cursos desde cero (A1). Si ya sabes algo, te ayudamos a encontrar tu nivel." },
+    { p: "¿Cómo sé en qué nivel estoy?", r: "Puedes hacer la prueba de nivel que está en esta misma página: eliges el idioma, respondes unas preguntas y te mostramos tu resultado." },
     { p: "¿Qué niveles ofrecen?", r: "Empezamos desde el nivel A1 en inglés, italiano, alemán y catalán." },
     { p: "¿Tienen cursos para niños?", r: "Sí, tenemos un curso de vacaciones para niños de 6 a 12 años, con inglés e italiano." },
     { p: "¿Cómo conozco horarios y precios?", r: "Escríbenos por WhatsApp y te compartimos toda la información al momento." }
@@ -294,6 +413,7 @@ const NEGOCIO = {
     <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav class="menu" id="menu">
       <a href="#idiomas">Idiomas</a>
+      <a href="#prueba" id="navPrueba">Prueba de nivel</a>
       <a href="#porque">Por qué VIVA</a>
       <a href="#ninos" id="navNinos">Niños</a>
       <a href="#faq">Preguntas</a>
@@ -352,6 +472,51 @@ const NEGOCIO = {
           <a class="btn" id="btnKids" target="_blank" rel="noopener"></a>
         </div>
         <ul id="kidsPuntos"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="prueba" id="prueba">
+    <div class="wrap">
+      <div class="center rv">
+        <span class="eyebrow">Prueba de nivel</span>
+        <h2 id="pruebaTitulo"></h2>
+        <p class="sub" id="pruebaTexto"></p>
+      </div>
+      <div class="quiz rv" id="quiz">
+        <div id="qInicio">
+          <form id="qForm" class="qform" novalidate autocomplete="off">
+            <div><label for="qNombre">Tu nombre</label><input id="qNombre" placeholder="Ej. María"></div>
+            <div><label for="qTel">Tu número de teléfono (WhatsApp)</label><input id="qTel" type="tel" inputmode="tel" placeholder="Ej. 5555 5555"></div>
+            <div><label id="qIdLabel">¿Qué idioma quieres evaluar?</label><div class="chips-idioma" id="qIdiomas" role="radiogroup" aria-labelledby="qIdLabel"></div></div>
+            <p class="qerror" id="qError" role="alert" hidden></p>
+            <button class="btn" type="submit">Comenzar la prueba</button>
+            <p class="nota" id="qNota"></p>
+          </form>
+        </div>
+        <div id="qPregunta" hidden>
+          <div class="qhead"><span id="qCount" aria-live="polite"></span></div>
+          <div class="qbar"><i id="qBar"></i></div>
+          <p class="qtexto" id="qTexto"></p>
+          <div class="qops" id="qOps"></div>
+          <div class="qnav">
+            <button type="button" class="btn sec sm" id="qPrev">Anterior</button>
+            <button type="button" class="btn sm" id="qNext" disabled>Siguiente</button>
+          </div>
+        </div>
+        <div id="qResultado" class="res" hidden>
+          <span class="eyebrow" id="resIdioma"></span>
+          <div class="res-badge" id="resBadge"></div>
+          <h3 id="resNom"></h3>
+          <p class="desc" id="resDesc"></p>
+          <p class="nota" id="resTotal"></p>
+          <div class="desglose" id="resDesglose"></div>
+          <div class="res-acc">
+            <a class="btn wa" id="resWa" target="_blank" rel="noopener"></a>
+            <button type="button" class="btn sec" id="resOtra">Hacer otra prueba</button>
+          </div>
+          <p class="nota" style="margin-top:18px">Es un resultado orientativo.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -541,6 +706,114 @@ const NEGOCIO = {
     const msg = `Hola, soy ${nombre}. Me interesa: ${idioma}. Mi nivel: ${nivel}. ¿Me pueden dar información?`;
     window.open(waLink(msg), "_blank", "noopener");
   });
+
+  // Prueba de nivel
+  const P = N.prueba;
+  if (P && P.activa && P.idiomas && P.idiomas.length) {
+    const NIVELES = ["A1", "A2", "B1"];
+    const RES = [
+      { b: "Pre-A1", nom: "Inicial",      d: "Estás empezando: te recomendamos comenzar desde el nivel A1." },
+      { b: "A1",     nom: "Principiante", d: "Manejas lo básico. Es un buen punto de partida para consolidar A1 y avanzar hacia A2." },
+      { b: "A2",     nom: "Básico",       d: "Te comunicas en situaciones simples y cotidianas. Estás listo para trabajar el nivel A2 y acercarte a B1." },
+      { b: "B1",     nom: "Intermedio",   d: "Tienes buenas bases: estás en nivel B1 o por encima." }
+    ];
+    const secs = { inicio: $("qInicio"), pregunta: $("qPregunta"), resultado: $("qResultado") };
+    const mostrar = k => {
+      Object.keys(secs).forEach(x => { secs[x].hidden = (x !== k); });
+      $("quiz").scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    const fallo = m => { $("qError").textContent = m; $("qError").hidden = false; };
+    let st = null;
+
+    $("pruebaTitulo").textContent = P.titulo;
+    $("pruebaTexto").textContent = P.texto;
+    $("qNota").textContent = P.nota || "";
+    $("qIdiomas").innerHTML = P.idiomas.map((l, i) =>
+      `<label style="--c:${esc(l.color)}"><input type="radio" name="qidioma" value="${i}"><span><i></i>${esc(l.nombre)}</span></label>`).join("");
+    $("resWa").innerHTML = WAICON + "Enviar mi resultado por WhatsApp";
+
+    $("qForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const nombre = $("qNombre").value.trim(), tel = $("qTel").value.trim();
+      const sel = document.querySelector('input[name="qidioma"]:checked');
+      if (!nombre) return fallo("Escribe tu nombre para continuar.");
+      if (tel.replace(/\D/g, "").length < 8) return fallo("Escribe un número de teléfono válido, el que usas en WhatsApp.");
+      if (!sel) return fallo("Elige el idioma de tu prueba.");
+      $("qError").hidden = true;
+      const L = P.idiomas[+sel.value];
+      const items = L.preguntas.map(p => {
+        const ord = shuffle(p.o.map((_, k) => k));
+        return { n: p.n, q: p.q, o: ord.map(k => p.o[k]), c: ord.indexOf(0) };
+      });
+      st = { L, items, resp: new Array(items.length).fill(null), i: 0, nombre, tel };
+      pintar();
+      mostrar("pregunta");
+    });
+
+    function pintar() {
+      const it = st.items[st.i], total = st.items.length;
+      $("qCount").textContent = st.L.nombre + " · Pregunta " + (st.i + 1) + " de " + total;
+      $("qBar").style.width = ((st.i + 1) / total * 100) + "%";
+      $("qTexto").textContent = it.q;
+      $("qOps").innerHTML = it.o.map((t, k) =>
+        `<button type="button" class="qop" data-k="${k}" aria-pressed="${st.resp[st.i] === k}"><b>${"ABCD"[k]}</b><span>${esc(t)}</span></button>`).join("");
+      $("qPrev").disabled = st.i === 0;
+      $("qNext").disabled = st.resp[st.i] == null;
+      $("qNext").textContent = st.i === total - 1 ? "Ver mi resultado" : "Siguiente";
+    }
+
+    $("qOps").addEventListener("click", e => {
+      const b = e.target.closest(".qop");
+      if (!b || !st) return;
+      st.resp[st.i] = +b.dataset.k;
+      $("qOps").querySelectorAll(".qop").forEach(x => x.setAttribute("aria-pressed", x === b));
+      $("qNext").disabled = false;
+    });
+    $("qPrev").addEventListener("click", () => { if (st && st.i > 0) { st.i--; pintar(); } });
+    $("qNext").addEventListener("click", () => {
+      if (!st || st.resp[st.i] == null) return;
+      if (st.i < st.items.length - 1) { st.i++; pintar(); } else resultado();
+    });
+
+    function resultado() {
+      const stats = {}; NIVELES.forEach(n => { stats[n] = { ok: 0, t: 0 }; });
+      st.items.forEach((it, k) => { const s = stats[it.n]; if (!s) return; s.t++; if (st.resp[k] === it.c) s.ok++; });
+      let pasados = 0;
+      for (const n of NIVELES) {
+        const s = stats[n];
+        if (s.t && s.ok >= Math.ceil(s.t * (P.umbral || 0.6))) pasados++; else break;
+      }
+      const R = RES[pasados], total = st.items.length;
+      const ok = st.items.reduce((a, it, k) => a + (st.resp[k] === it.c ? 1 : 0), 0);
+      $("qResultado").style.setProperty("--c", st.L.color);
+      $("resBadge").textContent = R.b;
+      $("resBadge").style.color = st.L.tc || "#fff";
+      $("resBadge").classList.toggle("larga", R.b.length > 3);
+      $("resIdioma").textContent = "Tu nivel de " + st.L.nombre;
+      $("resNom").textContent = R.nom;
+      $("resDesc").textContent = R.d;
+      $("resTotal").textContent = ok + " de " + total + " respuestas correctas";
+      $("resDesglose").innerHTML = NIVELES.map(n => {
+        const s = stats[n], pct = s.t ? Math.round(s.ok / s.t * 100) : 0;
+        return `<div><span>${n}</span><span class="b"><i style="width:${pct}%"></i></span><span>${s.ok}/${s.t}</span></div>`;
+      }).join("");
+      const detalle = NIVELES.map(n => n + " " + stats[n].ok + "/" + stats[n].t).join(" · ");
+      const msg = "Hola, soy " + st.nombre + ". Hice la prueba de nivel de " + st.L.nombre + " en la web de " + N.nombre + ".\n" +
+                  "Resultado: " + R.b + " (" + R.nom + "), " + ok + "/" + total + " aciertos.\n" +
+                  "Por nivel: " + detalle + ".\n" +
+                  "Mi teléfono: " + st.tel + ".\n" +
+                  "Quiero información de los cursos.";
+      $("resWa").href = waLink(msg);
+      mostrar("resultado");
+    }
+
+    $("resOtra").addEventListener("click", () => {
+      st = null;
+      document.querySelectorAll('input[name="qidioma"]').forEach(r => { r.checked = false; });
+      mostrar("inicio");
+    });
+  } else { $("prueba").remove(); $("navPrueba").remove(); }
 
   // Pie y datos estructurados
   $("anio").textContent = new Date().getFullYear();
